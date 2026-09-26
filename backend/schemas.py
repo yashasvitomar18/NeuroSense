@@ -1,8 +1,8 @@
-from pydantic import BaseModel, Field
+import pydantic
 
 
-class TextInput(BaseModel):
-    text: str = Field(
+class TextInput(pydantic.BaseModel):
+    text: str = pydantic.Field(
         ...,
         min_length=1,
         max_length=2000,
@@ -13,7 +13,7 @@ class TextInput(BaseModel):
     )
 
 
-class PredictionResponse(BaseModel):
+class PredictionResponse(pydantic.BaseModel):
     text: str
     cleaned_text: str
     predicted_emotion: str
@@ -23,13 +23,13 @@ class PredictionResponse(BaseModel):
     inference_time_ms: float
 
 
-class HealthResponse(BaseModel):
+class HealthResponse(pydantic.BaseModel):
     status: str
     model_loaded: bool
     environment: str
 
 
-class ModelLayerInfo(BaseModel):
+class ModelLayerInfo(pydantic.BaseModel):
     name: str
     type: str
     input_dim: int | None = None
@@ -41,7 +41,7 @@ class ModelLayerInfo(BaseModel):
     activation: str | None = None
 
 
-class ModelInfoResponse(BaseModel):
+class ModelInfoResponse(pydantic.BaseModel):
     architecture: str
     framework: str
     task: str
@@ -55,7 +55,7 @@ class ModelInfoResponse(BaseModel):
     layers: list[ModelLayerInfo]
 
 
-class StatsResponse(BaseModel):
+class StatsResponse(pydantic.BaseModel):
     total_predictions: int
     uptime_seconds: float
     average_inference_time_ms: float
