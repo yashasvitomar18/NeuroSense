@@ -22,7 +22,4 @@ COPY static/ ./static/
 EXPOSE 8000
 
 # Render (and most PaaS) inject $PORT at runtime; fall back to 8000 locally.
-# We `cd backend` because main.py imports its sibling modules (config,
-# schemas, services) as top-level names, not as a `backend.` package —
-# so the working directory must be backend/ for those imports to resolve.
-CMD ["sh", "-c", "cd backend && uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}"]
+CMD ["sh", "-c", "uvicorn backend.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
