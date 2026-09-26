@@ -15,18 +15,15 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-from config import CORS_ORIGINS, ENVIRONMENT, STATIC_DIR
-from schemas import (
+from backend.config import CORS_ORIGINS, ENVIRONMENT, STATIC_DIR
+from backend.schemas import (
     HealthResponse,
     ModelInfoResponse,
     PredictionResponse,
     StatsResponse,
     TextInput,
 )
-
-# Keep model service isolated from the FastAPI application.
-# TensorFlow/model loading happens inside the service.
-from services.model_service import emotion_service
+from backend.services.model_service import emotion_service
 
 
 _server_start_time = time.time()
