@@ -14,71 +14,61 @@
 
 <nav class="nav">
   <div class="brand">
-    <svg class="brand-mark" viewBox="0 0 24 24" fill="none">
-      <circle cx="4" cy="12" r="2.4" fill="#4fd1e8"/>
-      <circle cx="20" cy="6" r="2.2" fill="#4d7dfb"/>
-      <circle cx="20" cy="18" r="2.2" fill="#8c6bfb"/>
-      <path d="M6 12 L17.5 6.5 M6 12 L17.5 17.5" stroke="#3a4260" stroke-width="1.2"/>
+    <svg class="brand-mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="4" cy="12" r="2.4" fill="#4fd1e8"></circle>
+      <circle cx="20" cy="6" r="2.2" fill="#4d7dfb"></circle>
+      <circle cx="20" cy="18" r="2.2" fill="#8c6bfb"></circle>
+      <path d="M6 12 L17.5 6.5 M6 12 L17.5 17.5" stroke="#3a4260" stroke-width="1.2"></path>
     </svg>
-    NeuroSense
+    <span>NeuroSense</span>
   </div>
   <div class="nav-links">
-    <button data-route="home" class="active">Home</button>
-    <button data-route="analyze">Analyze</button>
-    <button data-route="history">History</button>
-    <button data-route="analytics">Analytics</button>
-    <button data-route="model">Model</button>
+    <button data-route="home" class="active" type="button">Home</button>
+    <button data-route="analyze" type="button">Analyze</button>
+    <button data-route="history" type="button">History</button>
+    <button data-route="analytics" type="button">Analytics</button>
+    <button data-route="model" type="button">Model</button>
   </div>
+  <button class="nav-burger" id="nav-burger" type="button" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="nav-drawer" id="nav-drawer">
+  <button data-route="home" type="button">Home</button>
+  <button data-route="analyze" type="button">Analyze</button>
+  <button data-route="history" type="button">History</button>
+  <button data-route="analytics" type="button">Analytics</button>
+  <button data-route="model" type="button">Model</button>
+</div>
 
-<!-- ============================= HOME ============================= -->
+<!-- ============================= HOME (short) ============================= -->
 <main id="page-home" class="page active">
-  <section class="hero">
+  <section class="hero hero-compact">
     <div>
       <div class="eyebrow-line"><span class="eyebrow-dot"></span> BIDIRECTIONAL GRU · 6-CLASS INFERENCE</div>
-      <h1>Understand the <span>emotion</span> behind the words.</h1>
-      <p class="hero-sub">NeuroSense reads a sentence, runs it through a trained Bidirectional GRU network, and returns a full probability distribution across six emotions — with the confidence behind every call.</p>
+      <h1>Understand the <span>emotion</span> behind every sentence.</h1>
+      <p class="hero-sub">NeuroSense runs your text through a trained Bidirectional GRU network and returns a full probability distribution across six emotions.</p>
       <div class="hero-cta">
-        <button class="btn btn-primary" data-route="analyze">Analyze Text</button>
-        <button class="btn btn-ghost" data-route="model">Explore Model</button>
+        <button class="btn btn-primary" data-route="analyze" type="button">Analyze Text →</button>
+        <button class="btn btn-ghost" data-route="model" type="button">Explore Model</button>
       </div>
     </div>
     <div class="hero-visual glass">
-      <canvas id="hero-canvas"></canvas>
+      <canvas id="hero-canvas" aria-hidden="true"></canvas>
     </div>
   </section>
 
-  <section class="container block">
-    <div class="block-head">
-      <h2>How it works</h2>
-      <p>Five stages take raw text from your keyboard to a calibrated emotional signal.</p>
-    </div>
-    <div class="steps">
-      <div class="step"><div class="step-index">1</div><h4>Text Input</h4><p>You write a sentence, in your own words.</p></div>
-      <div class="step"><div class="step-line"></div><div class="step-index">2</div><h4>NLP Processing</h4><p>Cleaning, tokenizing, padding to length 50.</p></div>
-      <div class="step"><div class="step-line"></div><div class="step-index">3</div><h4>BiGRU Inference</h4><p>Two bidirectional GRU layers read the sequence both ways.</p></div>
-      <div class="step"><div class="step-line"></div><div class="step-index">4</div><h4>Emotion Probability</h4><p>A softmax layer scores all six emotions.</p></div>
-      <div class="step"><div class="step-line"></div><div class="step-index">5</div><h4>Insight Visualization</h4><p>Results rendered as gauges, bars, and a radar.</p></div>
-    </div>
-  </section>
-
-  <section class="container block">
-    <div class="block-head">
-      <h2>Built on real infrastructure</h2>
-      <p>Every layer of the stack is doing genuine work — nothing here is a mock.</p>
-    </div>
+  <section class="container block-tight">
     <div class="tech-grid">
-      <div class="glass tech-card" style="--card-accent:#8c6bfb"><span class="icon">🧠</span><h4>Deep Learning</h4><p>Bidirectional GRU neural network trained for 6-class emotion classification.</p></div>
-      <div class="glass tech-card" style="--card-accent:#4fd1e8"><span class="icon">📝</span><h4>NLP</h4><p>Text cleaning, tokenization, and sequence padding to a fixed length of 50.</p></div>
-      <div class="glass tech-card" style="--card-accent:#4d7dfb"><span class="icon">⚡</span><h4>API</h4><p>FastAPI inference service with typed request and response schemas.</p></div>
-      <div class="glass tech-card" style="--card-accent:#f2b84b"><span class="icon">📊</span><h4>Analytics</h4><p>Prediction history and emotion trends, computed from real usage.</p></div>
-      <div class="glass tech-card" style="--card-accent:#ee7fa6"><span class="icon">🚀</span><h4>Deployment</h4><p>Environment-driven config, robust paths, ready to ship.</p></div>
-      <div class="glass tech-card" style="--card-accent:#ef5b48"><span class="icon">🔎</span><h4>Model Transparency</h4><p>Architecture and parameter counts read live from the loaded model.</p></div>
+      <div class="glass tech-card" style="--card-accent:#8c6bfb"><span class="icon">🧠</span><h4>Deep Learning</h4><p>Bidirectional GRU trained for 6-class emotion classification.</p></div>
+      <div class="glass tech-card" style="--card-accent:#4fd1e8"><span class="icon">📝</span><h4>NLP</h4><p>Cleaning, tokenization, and sequence padding to length 50.</p></div>
+      <div class="glass tech-card" style="--card-accent:#4d7dfb"><span class="icon">⚡</span><h4>API</h4><p>FastAPI inference service with typed schemas.</p></div>
+      <div class="glass tech-card" style="--card-accent:#f2b84b"><span class="icon">📊</span><h4>Analytics</h4><p>Computed live from your own prediction history.</p></div>
     </div>
   </section>
 
-  <section class="container block" id="latest-section" style="display:none;">
-    <div class="block-head"><h2>Latest analysis</h2></div>
+  <section class="container block-tight" id="latest-section" style="display:none;">
+    <div class="panel-title">Latest Analysis</div>
     <div class="glass panel" id="latest-card"></div>
   </section>
 
@@ -90,57 +80,44 @@
   <div class="container analyze-layout">
     <div>
       <div class="glass panel">
-        <div class="panel-title">Model Inference Pipeline</div>
+        <div class="panel-title">Enter Text</div>
         <div class="input-wrap">
-          <textarea id="text-input" maxlength="2000" placeholder="Type a sentence to analyze... e.g. &quot;I just got selected for my dream internship!&quot;"></textarea>
+          <textarea id="text-input" maxlength="2000" placeholder="Enter a sentence and let NeuroSense understand the emotion..."></textarea>
           <div class="char-count"><span id="char-count">0</span> / 2000</div>
         </div>
         <div class="samples" id="sample-chips"></div>
         <div class="analyze-actions">
-          <button class="btn btn-primary" id="analyze-btn">Analyze Emotion</button>
-          <span class="pipeline-status" id="pipeline-status"></span>
+          <button class="btn btn-primary" id="analyze-btn" type="button">Analyze Emotion</button>
         </div>
+
         <div class="pipeline" id="pipeline">
-          <div class="pipe-node"><div class="pipe-dot" data-stage="input"></div><div class="pipe-label" data-stage="input">Input Text</div></div>
+          <div class="pipe-node"><div class="pipe-dot" data-stage="input"></div><div class="pipe-label" data-stage="input">Input</div></div>
           <div class="pipe-connector" data-stage="c1"></div>
           <div class="pipe-node"><div class="pipe-dot" data-stage="token"></div><div class="pipe-label" data-stage="token">Tokenize</div></div>
           <div class="pipe-connector" data-stage="c2"></div>
-          <div class="pipe-node"><div class="pipe-dot" data-stage="embed"></div><div class="pipe-label" data-stage="embed">Embedding</div></div>
+          <div class="pipe-node"><div class="pipe-dot" data-stage="pad"></div><div class="pipe-label" data-stage="pad">Padding</div></div>
           <div class="pipe-connector" data-stage="c3"></div>
           <div class="pipe-node"><div class="pipe-dot" data-stage="gru"></div><div class="pipe-label" data-stage="gru">BiGRU</div></div>
           <div class="pipe-connector" data-stage="c4"></div>
-          <div class="pipe-node"><div class="pipe-dot" data-stage="dense"></div><div class="pipe-label" data-stage="dense">Dense</div></div>
-          <div class="pipe-connector" data-stage="c5"></div>
-          <div class="pipe-node"><div class="pipe-dot" data-stage="output"></div><div class="pipe-label" data-stage="output">Probabilities</div></div>
+          <div class="pipe-node"><div class="pipe-dot" data-stage="output"></div><div class="pipe-label" data-stage="output">Emotion</div></div>
         </div>
+        <div class="pipeline-status" id="pipeline-status"></div>
       </div>
+    </div>
 
+    <div>
       <div class="glass panel" id="result-panel">
         <div class="result-empty">
           <span class="glyph">◎</span>
           Run an analysis to see the predicted emotion and full probability breakdown.
         </div>
       </div>
-    </div>
-
-    <div>
-      <div class="glass panel">
-        <div class="panel-title">Confidence</div>
-        <div class="gauge-wrap">
-          <svg width="160" height="160" viewBox="0 0 160 160">
-            <circle cx="80" cy="80" r="68" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="10"/>
-            <circle id="gauge-arc" cx="80" cy="80" r="68" fill="none" stroke="#4fd1e8" stroke-width="10" stroke-linecap="round"
-              stroke-dasharray="427.3" stroke-dashoffset="427.3" transform="rotate(-90 80 80)"/>
-          </svg>
-          <div class="gauge-value" id="gauge-value" style="margin-top:-108px;">—</div>
-          <div class="gauge-tag" id="gauge-tag" style="margin-top:74px;">NO PREDICTION YET</div>
-        </div>
-        <p style="font-size:0.78rem; text-align:center; margin-top:14px;">Model confidence represents the probability assigned to the predicted emotion.</p>
-      </div>
 
       <div class="glass panel">
         <div class="panel-title">Emotion Radar</div>
-        <svg id="radar-svg" viewBox="0 0 240 220" width="100%"></svg>
+        <div class="radar-wrap">
+          <svg id="radar-svg" viewBox="0 0 240 220" width="100%" role="img" aria-label="Emotion radar chart"></svg>
+        </div>
       </div>
     </div>
   </div>
@@ -149,12 +126,12 @@
 <!-- ============================= HISTORY ============================= -->
 <main id="page-history" class="page">
   <div class="container" style="padding:40px 0 70px;">
-    <div class="block-head" style="display:flex; align-items:center; justify-content:space-between; max-width:none;">
+    <div class="page-head">
       <div>
         <h2>Activity Timeline</h2>
         <p>Every analysis you run is kept locally in your browser.</p>
       </div>
-      <button class="btn btn-ghost" id="clear-history-btn">Clear History</button>
+      <button class="btn btn-ghost" id="clear-history-btn" type="button">Clear History</button>
     </div>
     <div class="glass panel" id="history-list" style="margin-top:24px;"></div>
   </div>
@@ -163,12 +140,14 @@
 <!-- ============================= ANALYTICS ============================= -->
 <main id="page-analytics" class="page">
   <div class="container" style="padding:40px 0 70px;">
-    <div class="block-head"><h2>Emotion Analytics</h2><p>Computed entirely from your own prediction history.</p></div>
+    <div class="page-head"><div><h2>Emotion Analytics</h2><p>Computed entirely from your own prediction history.</p></div></div>
+
     <div id="analytics-empty" class="empty-state" style="display:none;">
       <span class="glyph">◇</span>
       <h4>No predictions yet</h4>
       <p>Run a few analyses to see your emotion trends here.</p>
     </div>
+
     <div id="analytics-content">
       <div class="stat-grid">
         <div class="glass stat-card"><div class="stat-value" id="stat-total">0</div><div class="stat-label">Total Predictions</div></div>
@@ -183,7 +162,7 @@
         </div>
         <div class="glass panel">
           <div class="panel-title">Emotion Timeline</div>
-          <svg id="timeline-svg" viewBox="0 0 400 180" width="100%"></svg>
+          <svg id="timeline-svg" viewBox="0 0 400 180" width="100%" role="img" aria-label="Confidence over time"></svg>
         </div>
       </div>
     </div>
@@ -192,20 +171,37 @@
 
 <!-- ============================= MODEL ============================= -->
 <main id="page-model" class="page">
-  <div class="container model-grid">
-    <div class="glass panel">
-      <div class="panel-title">Model Specification</div>
-      <div id="model-specs"><div class="empty-state"><span class="glyph">…</span>Loading model info</div></div>
-      <div class="disclaimer">This visualization represents the model's inference pipeline, not individual trained neurons.</div>
+  <div class="container" style="padding:40px 0 70px;">
+    <div class="page-head"><div><h2>Model Intelligence</h2><p>Read live from the loaded model — nothing here is invented.</p></div></div>
+
+    <div id="model-loading" class="empty-state">
+      <span class="glyph spin">◌</span>
+      <h4>Loading model info…</h4>
     </div>
-    <div class="glass panel">
-      <div class="panel-title">Architecture</div>
-      <div class="arch-flow" id="arch-flow"></div>
+    <div id="model-error" class="empty-state" style="display:none;">
+      <span class="glyph">!</span>
+      <h4>Model information unavailable</h4>
+      <p>Could not reach <code>/model-info</code>. <button class="btn btn-ghost" id="model-retry-btn" type="button" style="margin-top:10px;">Retry</button></p>
+    </div>
+
+    <div id="model-content" style="display:none;">
+      <div class="stat-grid" id="model-stat-grid"></div>
+      <div class="model-grid">
+        <div class="glass panel">
+          <div class="panel-title">Specification</div>
+          <div id="model-specs"></div>
+          <div class="disclaimer">This diagram represents the model's inference pipeline, not individual trained neurons.</div>
+        </div>
+        <div class="glass panel">
+          <div class="panel-title">Architecture</div>
+          <div class="arch-flow" id="arch-flow"></div>
+        </div>
+      </div>
     </div>
   </div>
 </main>
 
-<div id="toast"></div>
+<div id="toast" role="status" aria-live="polite"></div>
 
 <script src="/static/js/app.js"></script>
 </body>
