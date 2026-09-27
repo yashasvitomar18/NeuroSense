@@ -19,7 +19,7 @@ The application is deployed with FastAPI and serves the frontend directly from t
 💻 Source Code
 
 🔗 GitHub Repository — NeuroSense
-_Screenshots: add here once captured (`docs/screenshots/`)._
+_Screenshots: screenshots/Screenshot 2026-09-27 101856.png
 
 ## Features
 
