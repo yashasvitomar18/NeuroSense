@@ -22,4 +22,6 @@ COPY static/ ./static/
 EXPOSE 8000
 
 # Render (and most PaaS) inject $PORT at runtime; fall back to 8000 locally.
+# Imports inside backend/ are absolute (backend.config, backend.schemas, ...),
+# so this MUST run from /app (the project root), never from inside backend/.
 CMD ["sh", "-c", "uvicorn backend.main:app --host 0.0.0.0 --port ${PORT:-8000}"]

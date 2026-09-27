@@ -15,7 +15,7 @@ import numpy as np
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
-from config import (
+from backend.config import (
     EMOTION_EMOJIS,
     EMOTION_LABELS,
     MAX_SEQUENCE_LENGTH,

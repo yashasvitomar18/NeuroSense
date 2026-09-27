@@ -1,10 +1,12 @@
 """
 NeuroSense — AI Emotion Intelligence Platform
+FastAPI backend serving the trained BiGRU emotion classifier.
 
-FastAPI backend for the trained BiGRU emotion classifier.
-
-Pipeline:
-Text → Preprocessing → Tokenizer → Padding → BiGRU → Probabilities
+This preserves the original prediction pipeline exactly:
+  text -> preprocess -> tokenizer -> pad_sequences -> BiGRU -> probabilities
+The only changes from the original main.py are structural (config split
+out, schemas split out, model logic wrapped in a service class) plus two
+new read-only endpoints (/model-info, /stats) and configurable CORS.
 """
 
 import time
@@ -25,60 +27,26 @@ from backend.schemas import (
 )
 from backend.services.model_service import emotion_service
 
-
 _server_start_time = time.time()
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """
-    Application lifecycle.
-
-    The model is loaded once when the server starts and
-    released when the server shuts down.
-    """
-
-    print("=" * 50)
-    print("NeuroSense API starting...")
-    print("=" * 50)
-
-    try:
-        print("Loading BiGRU model and tokenizer...")
-
-        emotion_service.load()
-
-        print("BiGRU model loaded successfully.")
-        print("NeuroSense API is ready.")
-
-    except Exception as exc:
-        print(f"Model loading failed: {exc}")
-        raise
+    print("Loading BiGRU model and tokenizer...")
+    emotion_service.load()
+    print("Model loaded successfully.")
 
     yield
 
-    print("Shutting down NeuroSense API...")
-
-    try:
-        emotion_service.unload()
-        print("Model unloaded successfully.")
-    except Exception as exc:
-        print(f"Error while unloading model: {exc}")
+    emotion_service.unload()
 
 
 app = FastAPI(
     title="NeuroSense API",
-    description=(
-        "AI-powered emotion intelligence API using "
-        "a Bidirectional GRU neural network."
-    ),
+    description="Inference API for the NeuroSense BiGRU emotion classifier.",
     version="2.0.0",
     lifespan=lifespan,
 )
-
-
-# ---------------------------------------------------------
-# CORS
-# ---------------------------------------------------------
 
 app.add_middleware(
     CORSMiddleware,
@@ -88,45 +56,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 
-# ---------------------------------------------------------
-# Static Frontend
-# ---------------------------------------------------------
-
-app.mount(
-    "/static",
-    StaticFiles(directory=str(STATIC_DIR)),
-    name="static",
-)
-
-
-# ---------------------------------------------------------
-# Homepage
-# ---------------------------------------------------------
 
 @app.get("/", include_in_schema=False)
 def serve_ui():
-    """
-    Serve the NeuroSense frontend.
-    """
-    return FileResponse(
-        str(STATIC_DIR / "index.html")
-    )
+    return FileResponse(str(STATIC_DIR / "index.html"))
 
 
-# ---------------------------------------------------------
-# Health Check
-# ---------------------------------------------------------
-
-@app.get(
-    "/health",
-    response_model=HealthResponse,
-)
+@app.get("/health", response_model=HealthResponse)
 def health_check():
-    """
-    Check API and model status.
-    """
-
     return HealthResponse(
         status="Server is running",
         model_loaded=emotion_service.is_ready,
@@ -134,105 +73,38 @@ def health_check():
     )
 
 
-# ---------------------------------------------------------
-# Emotion Prediction
-# ---------------------------------------------------------
-
 @app.post(
     "/predict",
     response_model=PredictionResponse,
-    responses={
-        503: {
-            "description": "Model is not ready"
-        },
-        500: {
-            "description": "Prediction failed"
-        },
-    },
+    responses={503: {"description": "Model not loaded"}},
 )
-def predict_emotion(
-    text_input: TextInput,
-):
-    """
-    Predict the emotion expressed in the input text.
-    """
-
-    # Make sure model is available
+def predict_emotion(text_input: TextInput):
     if not emotion_service.is_ready:
         raise HTTPException(
             status_code=503,
-            detail=(
-                "The emotion model is not ready yet. "
-                "Please try again shortly."
-            ),
+            detail="Model is not loaded yet. Please try again in a moment.",
         )
 
     try:
-        result = emotion_service.predict(
-            text_input.text
-        )
-
-        return PredictionResponse(
-            **result
-        )
-
-    except Exception as exc:
-        # Log the real error server-side
-        print(
-            f"Prediction error: {type(exc).__name__}: {exc}"
-        )
-
-        # Do not expose internal details to users
+        result = emotion_service.predict(text_input.text)
+    except Exception:
+        # Never leak internal stack traces to the client.
         raise HTTPException(
             status_code=500,
-            detail=(
-                "Something went wrong while "
-                "analyzing the text."
-            ),
+            detail="Something went wrong while analyzing the text. Please try again.",
         )
 
+    return PredictionResponse(**result)
 
-# ---------------------------------------------------------
-# Model Information
-# ---------------------------------------------------------
 
-@app.get(
-    "/model-info",
-    response_model=ModelInfoResponse,
-)
+@app.get("/model-info", response_model=ModelInfoResponse)
 def model_info():
-    """
-    Return information about the loaded BiGRU model.
-    """
-
     if not emotion_service.is_ready:
-        raise HTTPException(
-            status_code=503,
-            detail="Model is not loaded yet.",
-        )
-
-    return ModelInfoResponse(
-        **emotion_service.get_model_info()
-    )
+        raise HTTPException(status_code=503, detail="Model is not loaded yet.")
+    return ModelInfoResponse(**emotion_service.get_model_info())
 
 
-# ---------------------------------------------------------
-# Statistics
-# ---------------------------------------------------------
-
-@app.get(
-    "/stats",
-    response_model=StatsResponse,
-)
+@app.get("/stats", response_model=StatsResponse)
 def stats():
-    """
-    Return runtime and prediction statistics.
-    """
-
-    uptime = (
-        time.time() - _server_start_time
-    )
-
-    return StatsResponse(
-        **emotion_service.get_stats(uptime)
-    )
+    uptime = time.time() - _server_start_time
+    return StatsResponse(**emotion_service.get_stats(uptime))
