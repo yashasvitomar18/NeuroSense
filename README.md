@@ -22,7 +22,8 @@ The application is deployed with FastAPI and serves the frontend directly from t
 ## 🖥️ Screenshots
 
 ![NeuroSense Dashboard](screenshots/Screenshot%202026-09-27%20101856.png)
-![Analysis](screenshots/Screenshot 2026-09-27 101917.png)
+![Analysis](screenshots/Screenshot%202026-09-27%20101917.png)
+
 ## Features
 
 - Six-class emotion classification (sadness, joy, love, anger, fear, surprise) with full probability breakdown
