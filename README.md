@@ -19,8 +19,9 @@ The application is deployed with FastAPI and serves the frontend directly from t
 💻 Source Code
 
 🔗 GitHub Repository — NeuroSense
-_Screenshots: screenshots/Screenshot 2026-09-27 101856.png
+## 🖥️ Screenshots
 
+![NeuroSense Dashboard](screenshots/Screenshot%202026-09-27%20101856.png)
 ## Features
 
 - Six-class emotion classification (sadness, joy, love, anger, fear, surprise) with full probability breakdown
