@@ -9,10 +9,16 @@ An NLP-powered emotion intelligence platform built around a trained **Bidirectio
 - **Storage**: Prediction history lives in the browser's `localStorage` (structured so a real database can be swapped in later — see [Future Improvements](#future-improvements))
 - **Model**: Not retrained or modified — this project wraps and productizes an existing trained model
 
-## Demo
+🚀 Live Demo
+🌐 Try NeuroSense
 
-Run locally (see [Running Locally](#running-locally)) and open `http://127.0.0.1:8000`.
+🔗 Live Application — neuro-sense.onrender.com
 
+The application is deployed with FastAPI and serves the frontend directly from the backend.
+
+💻 Source Code
+
+🔗 GitHub Repository — NeuroSense
 _Screenshots: add here once captured (`docs/screenshots/`)._
 
 ## Features
