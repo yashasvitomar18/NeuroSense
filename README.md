@@ -1,6 +1,6 @@
 # NeuroSense — AI Emotion Intelligence Platform
 
-An NLP-powered emotion intelligence platform built around a trained **Bidirectional GRU** neural network. NeuroSense takes a sentence, runs it through the model, and returns a full probability distribution across six emotions — visualized as a confidence gauge, probability bars, a radar chart, and a live inference pipeline.
+An NLP powered emotion intelligence platform built around a trained **Bidirectional GRU** neural network. NeuroSense takes a sentence, runs it through the model, and returns a full probability distribution across six emotions — visualized as a confidence gauge, probability bars, a radar chart, and a live inference pipeline.
 
 ## Overview
 
